@@ -26,7 +26,20 @@ export default {
     }
   },
   data() {
+    // const recipe1 = {
+    //   recipeId: 1,
+    //   title: "ofek1",
+    // };
+    // const recipe2 = {
+    //   recipeId: 2,
+    //   title: "ofek2",
+    // };
+    // const recipe3 = {
+    //   recipeId: 2,
+    //   title: "ofek3",
+    // };
     return {
+      // recipes: [recipe1, recipe2,recipe3]
       recipes: []
     };
   },
@@ -42,8 +55,8 @@ export default {
         );
 
         // console.log(response);
-        const recipes = response.data.recipes;
         this.recipes = [];
+        const recipes = response.data;
         this.recipes.push(...recipes);
         // console.log(this.recipes);
       } catch (error) {
