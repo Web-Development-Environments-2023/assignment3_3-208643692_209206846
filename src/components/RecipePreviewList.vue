@@ -23,35 +23,29 @@ export default {
     title: {
       type: String,
       required: true
-    }
+    },
+    reqSource: {
+      type: String,
+      required: true
+    },
   },
   data() {
-    // const recipe1 = {
-    //   recipeId: 1,
-    //   title: "ofek1",
-    // };
-    // const recipe2 = {
-    //   recipeId: 2,
-    //   title: "ofek2",
-    // };
-    // const recipe3 = {
-    //   recipeId: 2,
-    //   title: "ofek3",
-    // };
     return {
-      // recipes: [recipe1, recipe2,recipe3]
       recipes: []
     };
   },
   mounted() {
+
     this.updateRecipes();
+    
+
   },
   methods: {
     async updateRecipes() {
       try {
+        console.log(this.reqSource);
         const response = await this.axios.get(
-          this.$root.store.server_domain + "/recipes/random",
-          // "https://test-for-3-2.herokuapp.com/recipes/random"
+          this.$root.store.server_domain + this.reqSource,
         );
 
         // console.log(response);
@@ -63,6 +57,22 @@ export default {
         console.log(error);
       }
     }
+    // async updateRecipes() {
+    //   try {
+    //     const response = await this.axios.get(
+    //       this.$root.store.server_domain + "/recipes/random",
+    //       // "https://test-for-3-2.herokuapp.com/recipes/random"
+    //     );
+
+    //     // console.log(response);
+    //     this.recipes = [];
+    //     const recipes = response.data;
+    //     this.recipes.push(...recipes);
+    //     // console.log(this.recipes);
+    //   } catch (error) {
+    //     console.log(error);
+    //   }
+    // }
   }
 };
 </script>

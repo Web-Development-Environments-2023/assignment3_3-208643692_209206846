@@ -5,6 +5,18 @@ import axios from "axios";
 import state from "./store.js"
 import routes from "./routes";
 import VueRouter from "vue-router";
+// axios.interceptors.request.use(
+//   function(config) {
+//     // Do something before request is sent
+//     config.withCredentials = true;
+//     return config;
+//   },
+//   function(error) {
+//     // Do something with request error
+//     return Promise.reject(error);
+//   }
+// );
+
 Vue.use(VueRouter);
 const router = new VueRouter({
   routes,
