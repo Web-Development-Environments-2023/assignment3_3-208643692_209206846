@@ -3,6 +3,7 @@
     <div id="nav">
       <router-link :to="{ name: 'main' }">Vue Recipes</router-link>|
       <router-link :to="{ name: 'search' }">Search</router-link>|
+      <!-- <recipeDialogButton>Create Recipe</recipeDialogButton> -->
       {{ !$root.store.username }}
       <span v-if="!$root.store.username">
         Guest:
@@ -18,6 +19,8 @@
 </template>
 
 <script>
+// import RecipeDialogButton from './pages/RecipeDialogButton.vue';
+
 export default {
   name: "App",
   methods: {
@@ -29,6 +32,9 @@ export default {
         this.$forceUpdate();
       });
     }
+  },
+  components:{
+    // RecipeDialogButton,
   }
 };
 </script>
