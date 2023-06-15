@@ -4,10 +4,11 @@
       <div class="header-container">
         <div class="header-left">
           <router-link :to="{ name: 'main' }" class="logo">Vue Recipes</router-link>
-          <router-link :to="{ name: 'search' }">Search</router-link>
-          <router-link :to="{ name: 'about' }">About</router-link>
+          <router-link :to="{ name: 'search' }" class="search">Search</router-link>
+          <router-link :to="{ name: 'about' }" class="about">About</router-link>
         </div>
         <div class="header-right">
+          <button v-if="$root.store.username" class="create-recipe" @click="showRecipeModal">Create Recipe</button>
           <div v-if="!!$root.store.username" class="dropdown">
             <button class="dropdown-button">Personal</button>
             <div class="dropdown-content">
@@ -23,7 +24,7 @@
             <router-link :to="{ name: 'login' }">Login</router-link>
           </div>
           <div v-else class="user-section">
-            <span>{{ $root.store.username }}:</span>
+            <span>{{ $root.store.username }}</span>
             <button @click="Logout">Logout</button>
           </div>
         </div>
@@ -111,6 +112,39 @@ header {
   margin-right: 20px;
 }
 
+.search {
+  background-color: #19e7c1;
+  border: none;
+  padding: 8px 15px;
+  cursor: pointer;
+  color: #fff;
+  font-weight: bold;
+  margin-right: 10px;
+}
+
+.search:hover {
+  background-color: #19e7c1;
+  border-radius: 20%;
+  color: #ffffff;
+  text-decoration: none;
+}
+
+  .about {
+    background-color: #ffffff;
+  border: 1px solid #333;
+  padding: 8px 15px;
+  cursor: pointer;
+  color: #333;
+  font-weight: bold;
+}
+
+.about:hover {
+  background-color: #ffffff;
+  border-radius: 20%;
+  color: #333;
+  text-decoration: none;
+}
+
 header a {
   color: #333;
   text-decoration: none;
@@ -134,11 +168,27 @@ header a {
   padding: 8px 15px;
   cursor: pointer;
   color: #fff;
-  font-weight: bold}
+  font-weight: bold;}
 
 
-  .dropdown-button:hover {
+.dropdown-button:hover {
   background-color: #19e7c1;
+  border-radius: 20%;
+}
+
+.create-recipe {
+  background-color: #ffffff;
+  border: 1px solid #333;
+  padding: 8px 15px;
+  cursor: pointer;
+  color: #333;
+  font-weight: bold;
+  margin-right: 10px;
+}
+
+
+.create-recipe:hover {
+  background-color: #ffffff;
   border-radius: 20%;
 }
 
@@ -166,6 +216,8 @@ header a {
   margin-right: 10px;
   font-weight: bold;
   color: #333;
+  border: 1px solid #333;
+  padding: 8px 15px;
 }
 
 .user-section button {
