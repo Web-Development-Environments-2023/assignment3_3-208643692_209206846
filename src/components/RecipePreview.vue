@@ -64,7 +64,7 @@ export default {
 </script>
 
 <style scoped>
-.recipe-preview {
+/* .recipe-preview {
   display: inline-block;
   width: 90%;
   height: 100%;
@@ -136,6 +136,65 @@ export default {
   flex-grow: 1;
   width: 90px;
   display: table-cell;
+  text-align: center;
+} */
+.recipe-preview {
+  display: inline-block;
+  width: 100%;
+  max-width: 300px;
+  height: auto;
+  box-sizing: border-box;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s ease;
+}
+
+.recipe-preview:hover {
+  transform: translateY(-5px);
+}
+
+.recipe-body {
+  width: 100%;
+  height: auto;
+  padding-top: 60%;
+  position: relative;
+}
+
+.recipe-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.recipe-footer {
+  width: 100%;
+  padding: 10px;
+}
+
+.recipe-title {
+  font-size: 18px;
+  font-weight: bold;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.recipe-overview {
+  list-style-type: none;
+  margin: 10px 0 0 0;
+  padding: 0;
+  display: flex;
+  justify-content: space-between;
+  font-size: 14px;
+  color: #666;
+}
+
+.recipe-overview li {
+  flex-basis: 50%;
   text-align: center;
 }
 </style>
