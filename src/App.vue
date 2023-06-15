@@ -30,6 +30,21 @@
         </div>
       </div>
     </header>
+
+    <b-modal ref="my-modal" hide-footer title="System Message">
+      <div class="d-block text-center">
+        <h3>{{modalMessage}}</h3>
+      </div>
+      <b-button class="mt-3" variant="outline-danger" block @click="hideModal">Close Me</b-button>      
+    </b-modal>
+  
+  <b-modal ref="recipe-modal" hide-footer title="Create a recipe" size="xl">
+      <div class="d-block text-center">
+        <CreateRecipeDialog></CreateRecipeDialog>
+      </div>
+      <b-button class="mt-3" variant="outline-danger" block @click="hideRecipeModal">Close Me</b-button>      
+    </b-modal>
+
     <main>
       <div class="hero-section">
         <h1 class="hero-title">Delicious Recipes</h1>
@@ -54,13 +69,18 @@
 
 
 <script>
-// import CreateRecipeDialog from './components/CreateRecipeDialog.vue';
+import CreateRecipeDialog from './components/CreateRecipeDialog.vue';
 
 export default {
+  components: {
+    CreateRecipeDialog
+  },
   name: "App",
   data() {
     return {
       isLogged: !!this.$root.store.username,
+      modalMessage: "",
+      showCreateRecipe: false
     };
   },
   methods: {
@@ -71,11 +91,27 @@ export default {
       this.$router.push("/").catch(() => {
         this.$forceUpdate();
       });
-    }
+    },
+    showModal(message) {
+            this.modalMessage = message;
+            this.$refs["my-modal"].show();
+        },
+      hideModal() {
+            this.modalMessage = "";
+            this.$refs["my-modal"].hide();
+        },
+      toggleModal() {
+            // We pass the ID of the button that we want to return focus to
+            // when the modal has hidden
+            this.$refs["my-modal"].toggle("#toggle-btn");
+        },
+      showRecipeModal(){
+            this.$refs["recipe-modal"].show();
+        },
+      hideRecipeModal(){
+            this.$refs["recipe-modal"].hide();
+        }
   },
-  components:{
-    // CreateRecipeDialog,
-  }
 };
 </script>
 

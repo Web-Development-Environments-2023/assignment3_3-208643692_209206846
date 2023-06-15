@@ -1,11 +1,10 @@
 <template>
   <div class="container">
-    <h1 class="title">GAD & OFEK MAIN</h1>
-    <RecipePreviewList title="Random Recipes" class="RandomRecipes center" reqSource="/recipes/random" />
+    <RecipePreviewList title="Try These Recipes" class="RandomRecipes center" reqSource="/recipes/random" />
     <router-link v-if="!$root.store.username" to="/login" tag="button">You need to Login to view this</router-link>
     {{ !$root.store.username }}
     <!-- <RecipePreviewList
-      title="Last Viewed Recipes"
+      title="Your Last Viewed Recipes"
       :class="{
         RandomRecipes: true,
         blur: !$root.store.username,
