@@ -59,8 +59,8 @@
         </div>
         <div class="footer-right">
           <router-link :to="{ name: 'about' }">About</router-link>
-          <router-link :to="{ name: 'contact' }">Contact</router-link>
-          <router-link :to="{ name: 'privacy' }">Privacy Policy</router-link>
+          <!-- <router-link :to="{ name: 'contact' }">Contact</router-link>
+          <router-link :to="{ name: 'privacy' }">Privacy Policy</router-link> -->
         </div>
       </div>
     </footer>
