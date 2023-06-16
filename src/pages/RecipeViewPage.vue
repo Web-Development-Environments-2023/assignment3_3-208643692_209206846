@@ -61,7 +61,8 @@ export default {
         response = await this.axios.post(
             this.$root.store.server_domain +
               "users/favorites",
-              this.recipe.id
+              this.recipe.id,
+            { withCredentials:true }
           );
         if (response.status !== 200) this.$router.replace("/NotFound");
       } catch (error) {
@@ -78,7 +79,8 @@ export default {
         response = await this.axios.delete(
             this.$root.store.server_domain +
               "users/favorites/",
-              this.recipe.id
+              this.recipe.id,
+              { withCredentials:true }
           );
         if (response.status !== 200) this.$router.replace("/NotFound");
       } catch (error) {
@@ -105,7 +107,8 @@ export default {
 
             // "https://test-for-3-2.herokuapp.com/recipes/info",
             this.$root.store.server_domain +
-              "/recipes/" +`${this.$route.params.recipeId}`
+              "/recipes/" +`${this.$route.params.recipeId}`,
+              { withCredentials:true }
           );
         }
         else{
