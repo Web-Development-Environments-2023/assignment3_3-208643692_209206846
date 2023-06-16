@@ -32,6 +32,12 @@
           </div>
         </div>
       </div>
+      <div v-if="!!$root.store.username && recipe.favorite">
+          <button v-on:click="deleteFromFavorite()" class="favoriteBtnAlreadyClicked">&#11088;</button>
+        </div>
+        <div v-else-if="!!$root.store.username">
+          <button v-on:click="addToFavorite()" class="favoriteBtn">&#11088;</button>
+      </div>
       <!-- <pre>
       {{ $route.params }}
       {{ recipe }}
@@ -45,21 +51,47 @@
 export default {
   data() {
     return {
-      recipe: null
+      recipe: null,
     };
+  },
+  methods:{
+    async addToFavorite(){
+      try {
+        console.log( this.recipe.id)
+        response = await this.axios.post(
+            this.$root.store.server_domain +
+              "users/favorites",
+              this.recipe.id
+          );
+        if (response.status !== 200) this.$router.replace("/NotFound");
+      } catch (error) {
+        console.log("error.response.status", error.response.status);
+        this.$router.replace("/NotFound");
+        return;
+      }
+
+
+    },
+    async deleteFromFavorite(){
+      try {
+        console.log( this.recipe.id)
+        response = await this.axios.delete(
+            this.$root.store.server_domain +
+              "users/favorites/",
+              this.recipe.id
+          );
+        if (response.status !== 200) this.$router.replace("/NotFound");
+      } catch (error) {
+        console.log("error.response.status", error.response.status);
+        this.$router.replace("/NotFound");
+        return;
+      }
+    }
   },
   async created() {
     try {
       let response;
-      // response = this.$route.params.response;
       try {
-        // response = await this.axios.get(
-        //   // "https://test-for-3-2.herokuapp.com/recipes/info",
-        //   this.$root.store.server_domain + "/recipes/info",
-        //   {
-        //     params: { id: this.$route.params.id }
-        //   }
-        // );
 
         response = await this.axios.get(
             // "https://test-for-3-2.herokuapp.com/recipes/info",
@@ -138,6 +170,19 @@ export default {
 </script>
 
 <style scoped>
+.favoriteBtn {
+  border-radius: 30%;
+}
+.favoriteBtn:hover {
+  background-color: yellow;
+}
+.favoriteBtnAlreadyClicked{
+  background-color: yellow;
+}
+.favoriteBtnAlreadyClicked:hover{
+  background-color: rgb(255, 255, 255);
+}
+
 .wrapper {
   display: flex;
 }
