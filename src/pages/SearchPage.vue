@@ -1,412 +1,321 @@
+<!-- <template>
+  <div>
+    <h1 class="title" 
+      style="padding-top: 20px; padding-left: 5px; font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;">
+      Search Recipes
+    </h1>
+    <div style="display: inline-block; width: 100%">
+      <div class="form" style="float: left; padding-left: 10px; padding-right: 12px;">
+      <b-form @submit.stop.prevent> <br>        
+        <b-form-input class="pl-3" placeholder="Search here" v-model="selection.search_string" id="querystring" ></b-form-input>
+        <b-form-text class="pl-3" id="help-block">
+          In case of adding filtering the search will only consist of spooncular results!
+        </b-form-text>
+      </b-form>
+      </div>
+      <div style="padding-right: 10px;" id="dropdowns" class="d-flex pt-4">
+      <multiselect 
+        v-model="selection.selected_cuisines"
+        :options="options.cuisines"
+        placeholder="No cuisines to exclude"
+        style="max-width: 200px"
+        multiple
+        size="lg">      
+      </multiselect>
+      <multiselect
+        v-model="selection.selected_intolerances"
+        :options="options.intolerance"
+        placeholder="No intolerances"
+        style="max-width: 200px"
+        multiple>      
+      </multiselect>
+          <multiselect
+        v-model="selection.selected_diet"
+        :options="options.diets"
+        style="max-width: 200px"
+        placeholder="Any diet"
+        
+        >      
+      </multiselect>
+      <multiselect
+        v-model="selection.selected_amount"
+        :options="[5,10,15]"
+        placeholder="select amount of results"
+        style="max-width: 200px"
+        :allowEmpty="false"
+        >      
+      </multiselect>    
+      </div>    
+    </div>    
+      <multiselect
+      v-model="selection.sorting"
+      :options="['Popularity (descending)','Preperation time (ascending)']"
+      placeholder="select to sort"
+      style="max-width: 300px; left: 43%; right: auto;"      
+      :allowEmpty="true"
+      >      
+    </multiselect>  
+    <div class="d-flex justify-content-center pt-3">    
+      <b-button @click="Submit"  variant="success" >Search</b-button>
+    </div>
+    
+    <div class="resultsWrapper">
+      <RecipePreviewList id="searchResult" v-if="did_search"
+      title="Search Results" :reqSource= 'search_query' :sort="selection.sorting"
+      :class="{
+        RandomRecipes: true,
+        blur: !$root.store.username,
+        center: true
+      }"
+      disabled
+    ></RecipePreviewList>
+    </div>
+  </div>
+</template> -->
+
 <template>
   <div>
-    <h1 id="search-title" class="title">Search Page</h1>
-    <div id="search-form" class="container">
-      <b-form @submit.prevent="onSearch" @reset.prevent="onReset">
-        <!-- Query  -->
-        <b-form-group
-          id="search-query"
-          label-cols-sm="3"
-          label="Search:"
-          label-for="search"
-        >
-          <b-form-input
-            id="search"
-            v-model="$v.form.search.$model"
-            type="text"
-            :state="validateState('search')"
-          ></b-form-input>
-          <b-form-invalid-feedback v-if="!$v.form.search.required">
-            Please provide query
-          </b-form-invalid-feedback>
-          <b-form-invalid-feedback v-if="!$v.form.search.length">
-            Query shoult not be over 300 characters
-          </b-form-invalid-feedback>
-        </b-form-group>
-
-        <!-- Number of results -->
-        <b-form-group
-          id="number"
-          label-cols-sm="3"
-          label="Max number of results:"
-          label-for="number"
-        >
-          <b-form-select
-            id="number"
-            v-model="$v.form.number.$model"
-            :options="options"
-            :state="validateState('number')"
-          ></b-form-select>
-        </b-form-group>
-
-        <!-- Cuisine -->
-        <b-form-group
-          id="choose-cuisine"
-          label-cols-sm="3"
-          label="Cuisine:"
-          label-for="cuisine"
-        >
-          <b-form-select
-            id="cuisine"
-            v-model="$v.form.cuisine.$model"
-            :options="cuisines"
-            :state="validateState('cuisine')"
-          ></b-form-select>
-        </b-form-group>
-
-        <!-- Diet -->
-        <b-form-group
-          id="choose-diet"
-          label-cols-sm="3"
-          label="Diet:"
-          label-for="diet"
-        >
-          <b-form-select
-            id="diet"
-            v-model="$v.form.diet.$model"
-            :options="diets"
-            :state="validateState('diet')"
-          ></b-form-select>
-        </b-form-group>
-
-        <!-- Intolerances -->
-        <b-form-group
-          id="choose-intolerance"
-          label-cols-sm="3"
-          label="Intolerances:"
-          label-for="intolerance"
-        >
-          <b-form-select
-            id="intolerance"
-            v-model="$v.form.intolerance.$model"
-            :options="intolerances"
-            :state="validateState('intolerance')"
-          ></b-form-select>
-        </b-form-group>
-
-        <div id="buttons-s">
-          <b-button id="reset-button-s" type="reset" variant="danger"
-            >Reset</b-button
-          >
-          <b-button
-            id="search-button"
-            type="submit"
-            variant="primary"
-            style="width:250px;"
-            class="ml-5 w-75"
-            >Search</b-button
-          >
-        </div>
-      </b-form>
-    </div>
-    <b-alert
-      class="mt-2"
-      v-if="form.submitError"
-      variant="warning"
-      dismissible
-      show
-    >
-      Search failed: {{ form.submitError }}
-    </b-alert>
-
-    <div v-if="search_results">
-      <h5 id="no-res" v-if="noResults">
-        We couldn't find recipes to match your search
-      </h5>
-      <div v-else class="text-center">
-        <b-dropdown
-          id="sort"
-          v-if="!isEmpty"
-          text="Sort By"
-          variant="outline-dark"
-          class="m-2"
-        >
-          <b-dropdown-item v-on:click="this.sortByPrepTime"
-            >Preperation Time</b-dropdown-item
-          >
-          <b-dropdown-item v-on:click="this.sortByPopularity"
-            >Popularity</b-dropdown-item
-          >
-        </b-dropdown>
-        <RecipePreviewList
-          ref="res"
-          title="Search Results"
-          class="RandomRecipes center"
-        />
+    <h1 class="title">
+      Search Recipes
+    </h1>
+    <div>
+      <div class="form">
+        <form @submit.stop.prevent>
+          <br>        
+          <input class="pl-3" type="text" placeholder="Search here" v-model="selection.search_string" id="querystring">
+        </form>
       </div>
+      <div id="dropdowns" class="d-flex pt-4">
+        <select v-model="selection.selected_cuisines" multiple>
+          <option v-for="cuisine in options.cuisines" :value="cuisine" :key="cuisine">{{ cuisine }}</option>
+        </select>
+        <select v-model="selection.selected_intolerances" multiple>
+          <option v-for="intolerance in options.intolerance" :value="intolerance" :key="intolerance">{{ intolerance }}</option>
+        </select>
+        <select v-model="selection.selected_diet">
+          <option value="">Any diet</option>
+          <option v-for="diet in options.diets" :value="diet" :key="diet">{{ diet }}</option>
+        </select>
+        <select v-model="selection.selected_amount">
+          <option v-for="amount in [5, 10, 15]" :value="amount" :key="amount">{{ amount }}</option>
+        </select>
+        <select v-model="selection.sorting">
+        <option value="">Select to sort</option>
+        <option value="Popularity (descending)">Popularity (descending)</option>
+        <option value="Preparation time (ascending)">Preparation time (ascending)</option>
+      </select>
+      </div>    
+    </div>    
+    <div class="d-flex justify-content-center pt-3">    
+      <button @click="Submit" class="btn btn-success">Search</button>
+    </div>
+    
+    <div class="resultsWrapper">
+      <RecipePreviewList id="searchResult" v-if="did_search"
+        title="Search Results" :reqSource='search_query' :sort="selection.sorting"
+        :class="{
+          RandomRecipes: true,
+          blur: !$root.store.username,
+          center: true
+        }"
+        disabled
+      ></RecipePreviewList>
     </div>
   </div>
 </template>
 
+
+
 <script>
-import RecipePreviewList from "../components/RecipePreviewList";
-import { required, maxLength } from "vuelidate/lib/validators";
-export default {
-  name: "Search",
-  components: {
-    RecipePreviewList,
-  },
-  data() {
-    return {
-      form: {
-        search: "",
-        number: "5",
-        cuisine: "",
-        diet: "",
-        intolerance: "",
-      },
-      options: [
-        { value: "5", text: "5" },
-        { value: "10", text: "10" },
-        { value: "15", text: "15" },
-      ],
-
-      cuisines: [
-        { value: "", text: "No preference" },
-        { value: "African", text: "African" },
-        { value: "American", text: "American" },
-        { value: "British", text: "British" },
-        { value: "Cajun", text: "Cajun" },
-        { value: "Caribbean", text: "Caribbean" },
-        { value: "Chinese", text: "Chinese" },
-        { value: "Eastern European", text: "Eastern European" },
-        { value: "European", text: "European" },
-        { value: "French", text: "French" },
-        { value: "German", text: "German" },
-        { value: "Greek", text: "Greek" },
-        { value: "Indian", text: "Indian" },
-        { value: "Irish", text: "Irish" },
-        { value: "Italian", text: "Italian" },
-        { value: "Japanese", text: "Japanese" },
-        { value: "Jewish", text: "Jewish" },
-        { value: "Korean", text: "Korean" },
-        { value: "Latin American", text: "Latin American" },
-        { value: "Mediterranean", text: "Mediterranean" },
-        { value: "Mexican", text: "Mexican" },
-        { value: "Middle Eastern", text: "Middle Eastern" },
-        { value: "Nordic", text: "Nordic" },
-        { value: "Southern", text: "Southern" },
-        { value: "Spanish", text: "Spanish" },
-        { value: "Thai", text: "Thai" },
-        { value: "Vietnamese", text: "Vietnamese" },
-      ],
-
-      diets: [
-        { value: "", text: "No preference" },
-        { value: "gluten free", text: "Gluten Free" },
-        { value: "ketogenic", text: "Ketogenic" },
-        { value: "vegetarian", text: "Vegetarian" },
-        { value: "lacto-vegetarian", text: "Lacto-Vegetarian" },
-        { value: "ovo-vegetarian", text: "Ovo-Vegetarian" },
-        { value: "vegan", text: "Vegan" },
-        { value: "pescetarian", text: "Pescetarian" },
-        { value: "paleo", text: "Paleo" },
-        { value: "primal", text: "Primal" },
-        { value: "low FODMAP", text: "Low FODMAP" },
-        { value: "whole30", text: "Whole30" },
-      ],
-
-      intolerances: [
-        { value: "", text: "No preference" },
-        { value: "Dairy", text: "Dairy" },
-        { value: "Egg", text: "Egg" },
-        { value: "Gluten", text: "Gluten" },
-        { value: "Grain", text: "Grain" },
-        { value: "Peanut", text: "Peanut" },
-        { value: "Seafood", text: "Seafood" },
-        { value: "Sesame", text: "Sesame" },
-        { value: "Shellfish", text: "Shellfish" },
-        { value: "Soy", text: "Soy" },
-        { value: "Sulfite", text: "Sulfite" },
-        { value: "Tree Nut", text: "Tree Nut" },
-        { value: "Wheat", text: "Wheat" },
-      ],
-
-      errors: [],
-      validated: false,
-      search_results: [],
-      noResults: false,
-      submitted: false,
-    };
-  },
-  validations: {
-    form: {
-      search: {
-        required,
-        length: (u) => maxLength(300)(u),
-      },
-      number: {},
-      cuisine: {},
-      diet: {},
-      intolerance: {},
+  import RecipePreviewList from '../components/RecipePreviewList.vue';
+  export default {
+    components: { RecipePreviewList },
+    data () {
+      return {      
+        options:{
+          cuisines:[],
+          diets: [],
+          intolerance : [],
+        },        
+        selection:{
+            selected_diet: '',
+            selected_cuisines:[],
+            selected_intolerances:[],
+            selected_amount: 5,
+            search_string: '',
+            sorting: ''
+        },        
+        did_search: false,
+        search_query: ''     
+      }
     },
-  },
-  methods: {
-    validateState(param) {
-      const { $dirty, $error } = this.$v.form[param];
-      return $dirty ? !$error : null;
+    mounted () {
+        this.getOptions();
+        this.search_query = localStorage.getItem("search_query")
+        if(this.search_query!=null) this.did_search = true;
+        else this.search_query = ""
     },
-    async Search() {
-      try {
-        const response = await this.axios.get(
-          this.$root.store.server_domain + "/recipes/search",
-          {
-            params: {
-              searchQuery: this.form.search,
-              num: this.form.number,
-              cuisine: this.form.cuisine,
-              diet: this.form.diet,
-              intolerances: this.form.intolerance,
-            },
-          }
-        );
-        this.search_results = response.data;
-        if (!this.isEmpty) {
-          this.$refs.res.pushRecipes(this.search_results);
-        } else {
-          this.noResults = true;
-          this.$refs.res.pushRecipes(this.search_results);
+    methods:
+    {
+      async getOptions(){
+        try {
+          const response = await this.axios.get(
+            this.$root.store.server_domain + '/recipes/Options/RecipeSearch', 
+            {withCredentials: true}
+          );
+          const cuisines = response.data.cousines;
+          const diets = response.data.diets;
+          const intolerance = response.data.intolerances;
+          this.options.cuisines = cuisines;
+          this.options.diets = diets;
+          this.options.intolerance = intolerance;
+          // console.log(this.recipes);
+        } catch (error) {
+          console.log(error);
         }
-        this.$root.store.setLastSearch(
-          JSON.stringify({
-            search: this.form.search,
-            number: this.form.number,
-            cuisine: this.form.cuisine,
-            diet: this.form.diet,
-            intolerance: this.form.intolerance,
-            search_results: this.search_results,
-          })
-        );
-      } catch (err) {
-        console.log(err.response);
-        this.form.submitError = err.response.data.message;
+      },
+      Submit(){
+        this.did_search = false;
+        this.$nextTick(()=>{
+          this.search_query = '/recipes/searchRecipes?amount='+this.selection.selected_amount+'&search='+this.selection.search_string;
+        for(let cuisine of this.selection.selected_cuisines){
+          this.search_query += ('&cousine=' + cuisine);
+        }
+        if(this.selection.selected_diet!='' && this.selection.selected_diet!=null) this.search_query+=('&diet=' + this.selection.selected_diet)        
+        for(let into of this.selection.selected_intolerances){
+          this.search_query += ('&intollerances=' + into);
+        }
+        var ls = localStorage.setItem("search_query", this.search_query);
+        this.did_search = true;
+        });
+        
       }
-    },
-    onSearch() {
-      this.noResults = false;
-      this.submitted = true;
-      this.$v.form.$touch();
-      if (this.$v.form.$anyError) {
-        return;
-      }
-      this.Search(this.form.search);
-    },
-    onReset() {
-      this.form = {
-        search: "",
-        number: "5",
-        cuisine: "",
-        diet: "",
-        intolerance: "",
-        noResults: false,
-      };
-      this.$nextTick(() => {
-        this.$v.$reset();
-      });
-    },
-    getLastSearch() {
-      var searchData = JSON.parse(this.$root.store.lastSearch);
-      (this.form.search = searchData.search),
-        (this.form.number = searchData.number),
-        (this.form.cuisine = searchData.cuisine),
-        (this.form.diet = searchData.diet),
-        (this.form.intolerance = searchData.intolerance),
-        (this.search_results = searchData.search_results);
-    },
-    sortByPrepTime() {
-      return this.$refs.res.pushRecipes(
-        this.search_results.sort(function(a, b) {
-          return a.readyInMinutes - b.readyInMinutes;
-        })
-      );
-    },
-    sortByPopularity() {
-      return this.$refs.res.pushRecipes(
-        this.search_results.sort(function(a, b) {
-          return b.popularity - a.popularity;
-        })
-      );
-    },
-  },
-  mounted() {
-    if (this.$root.store.username) {
-      if (this.$root.store.lastSearch) {
-        this.getLastSearch();
-        this.$refs.res.pushRecipes(this.search_results);
-      }
-    }
-  },
-  computed: {
-    isEmpty: ({ search_results }) => search_results.length === 0,
-  },
-};
+    }    
+  }
 </script>
-
 <style>
-#search-form {
-  max-width: 600px;
-  padding: 15px;
-  margin-top: 30px;
-  border-color: rgba(5, 5, 5, 0.849);
-  border-width: 1px;
-  background-color: bisque;
-  border-style: solid;
-  border-radius: 5px;
-  font-size: 20px;
-  font-weight: bolder;
-}
+  .title {
+    font-family: 'Impact', Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+    font-size: 36px;
+    padding-top: 40px;
+    padding-left: 5px;
+    color: #8d362b;
+    text-align: center;
+  }
 
-#search-title {
-  font-family: "Corben", cursive;
-  text-shadow: 2px 3.5px #000000;
-  -webkit-text-stroke: 1.2px black;
-  color: #ebc2ce;
-  font-size: 50px;
-  text-align: center;
-}
+  .form {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 40px;
+    margin-bottom: 20px;
+  }
 
-#buttons-s {
-  text-align: center;
-}
+  input[type="text"] {
+    height: 48px;
+    padding-left: 12px;
+    font-size: 18px;
+    border: 2px solid #8d362b;
+    border-radius: 6px;
+    background-color: #f2e7de;
+    color: #8d362b;
+    width: 300px;
+    outline: none;
+    transition: border-color 0.3s ease;
+  }
 
-#reset-button-s {
-  border-color: rgba(5, 5, 5, 0.849);
-  border-width: 1px;
-  background-color: #691a32;
-  border-style: solid;
-  border-radius: 5px;
-  font-weight: 500;
-  color: white;
-  transition-duration: 0.4s;
-  width: 75 px;
-}
-#reset-button-s:hover {
-  background-color: #843a4f;
-}
-#search-button {
-  border-color: rgba(5, 5, 5, 0.849);
-  border-width: 1px;
-  background-color: #ebc2ce;
-  border-style: solid;
-  border-radius: 5px;
-  font-weight: bold;
-  color: rgb(5, 5, 5);
-  transition-duration: 0.4s;
-}
-#search-button:hover {
-  background-color: #cc90a1;
-}
+  input[type="text"]:focus {
+    border-color: #b55e40;
+  }
 
-#no-res {
-  text-align: center;
-  font-size: 23px;
-  font-weight: 600;
-  color: white;
-  margin-top: 20px;
-}
+  #dropdowns {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    margin-bottom: 20px;
+    gap: 10px;
+  }
 
-#sort {
-  background-color: #ebc2ce;
-  border-radius: 4px;
-}
+  select {
+    height: 48px;
+    padding: 10px;
+    font-size: 16px;
+    border: 2px solid #8d362b;
+    border-radius: 6px;
+    background-color: #f2e7de;
+    color: #8d362b;
+    outline: none;
+    transition: border-color 0.3s ease;
+  }
+
+  select[multiple] {
+    height: auto;
+  }
+
+  select:focus {
+    border-color: #b55e40;
+  }
+
+  .d-flex {
+    display: flex;
+  }
+
+  .justify-content-center {
+    justify-content: center;
+  }
+
+  .pt-3 {
+    padding-top: 24px;
+  }
+
+  .btn {
+    background-color: #8d362b;
+    color: #fff;
+    font-size: 18px;
+    border: none;
+    border-radius: 6px;
+    padding: 12px 24px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+
+  .btn:hover {
+    background-color: #b55e40;
+  }
+
+  .btn:active {
+    background-color: #6e2e23;
+  }
+
+  .resultsWrapper {
+    text-align: center;
+    margin-top: 40px;
+  }
+
+  .RandomRecipes {
+    margin-top: 20px;
+  }
+
+  body {
+    background-color: #f9f5f3;
+    color: #333;
+    font-family: Arial, sans-serif;
+  }
+
+  /* Media Queries */
+  @media (max-width: 768px) {
+    .form {
+      flex-direction: column;
+      align-items: stretch;
+    }
+
+    #dropdowns {
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    select {
+      margin-bottom: 10px;
+    }
+  }
 </style>
