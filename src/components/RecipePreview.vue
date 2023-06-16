@@ -13,13 +13,6 @@
       <ul class="recipe-overview">
         <li>{{ recipe.readyInMinutes }} minutes</li>
         <li>{{ recipe.popularity }} likes</li>
-        <div v-if="!!$root.store.username && recipe.favorite">
-          <button v-on:click="deleteFromFavorite()" class="favoriteBtnAlreadyClicked">&#11088;</button>
-        </div>
-        <div v-else-if="!!$root.store.username">
-          <button v-on:click="addToFavorite()" class="favoriteBtn">&#11088;</button>
-        </div>
-        <!--  -->
       </ul>
     </div>
   </router-link>
