@@ -224,7 +224,8 @@
               }
               await this.axios.post(          
               this.$root.store.server_domain + "/Users/createRecipe",
-              this.created_recipe
+              this.created_recipe,
+              { withCredentials:true }
               );
   
               this.changeView();

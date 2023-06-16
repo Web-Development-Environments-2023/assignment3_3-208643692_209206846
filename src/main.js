@@ -5,9 +5,12 @@ import axios from "axios";
 import state from "./store.js"
 import routes from "./routes";
 import VueRouter from "vue-router";
+import VueCookies from 'vue-cookies'
+
 // axios.defaults.withCredentials = true;
 
 Vue.use(VueRouter);
+Vue.use(VueCookies);
 const router = new VueRouter({
   routes,
 });

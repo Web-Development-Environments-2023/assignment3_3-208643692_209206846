@@ -46,7 +46,7 @@ export default {
         console.log(this.reqSource);
         const response = await this.axios.get(
           this.$root.store.server_domain + this.reqSource,
-          // {withCredentials:true}
+          {withCredentials:true}
         );
 
         // console.log(response);

@@ -188,7 +188,8 @@ export default {
           {
             username: this.form.username,
             password: this.form.password
-          }
+          },
+          { withCredentials:true }
         );
         this.$router.push("/login");
         // console.log(response);
