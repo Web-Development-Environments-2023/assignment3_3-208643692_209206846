@@ -4,9 +4,14 @@
       {{ title }}:
       <slot></slot>
     </h3>
-    <b-row>
+    <b-row v-if="this.reqSource !== '/users/MyRecipes'">
       <b-col v-for="r in recipes" :key="r.id">
-        <RecipePreview class="recipePreview" :recipe="r" />
+        <RecipePreview class="recipePreview" :recipe="r" recipeSrc='NotMyRecipes' />
+      </b-col>
+    </b-row>
+    <b-row v-else>
+      <b-col v-for="r in recipes" :key="r.id">
+        <RecipePreview class="recipePreview" :recipe="r" recipeSrc='MyRecipes' />
       </b-col>
     </b-row>
   </b-container>
