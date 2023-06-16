@@ -1,6 +1,6 @@
 <template>
-  <router-link
-    :to="{ name: 'recipe', params: { recipeId: recipe.recipeId } }"
+  <router-link v-if="this.recipeSrc !== 'MyRecipes'"
+    :to="{ name: 'recipe', params: { recipeId: recipe.recipeId, src:'NotMyRecipes' } }"
     class="recipe-preview"
   >
     <div class="recipe-body">
@@ -13,6 +13,24 @@
       <ul class="recipe-overview">
         <li>{{ recipe.readyInMinutes }} minutes</li>
         <li>{{ recipe.popularity }} likes</li>
+      </ul>
+    </div>
+  </router-link>
+  <router-link v-else
+    :to="{ name: 'userRecipe', params: { recipeId: recipe.id, src:'MyRecipes' } }"
+    class="recipe-preview"
+  >
+    <div class="recipe-body">
+      <img v-if="image_load" :src="recipe.image" class="recipe-image" />
+    </div>
+    <div class="recipe-footer">
+      <div :title="recipe.title" class="recipe-title">
+        {{ recipe.title }}
+      </div>
+      <ul class="recipe-overview">
+        <li>{{ recipe.readyInMinutes }} minutes</li>
+        <li>{{ recipe.popularity }} likes</li>
+
       </ul>
     </div>
   </router-link>
@@ -41,6 +59,10 @@ export default {
   props: {
     recipe: {
       type: Object,
+      required: true
+    },
+    recipeSrc: {
+      type: String,
       required: true
     }
 
