@@ -61,17 +61,17 @@
         </b-form-group>
 
         <b-form-group
-          id="input-group-vegeterian"
+          id="input-group-vegetarian"
           label-cols-sm="3"
-          label="Is Vegeterian:"
-          label-for="vegeterian"
+          label="Is Vegetarian:"
+          label-for="vegetarian"
         >
           <b-form-select
-            id="vegeterian"
-            v-model="created_recipe.vegeterian"
+            id="vegetarian"
+            v-model="created_recipe.vegetarian"
             :options="[true, false]"
           ></b-form-select>
-        <small v-if="created_recipe.vegeterian">please make sure your recipe is indeed vegeterian</small>
+        <small v-if="created_recipe.vegetarian">please make sure your recipe is indeed vegetarian</small>
         </b-form-group>
   
       <b-form-group
@@ -160,9 +160,9 @@
                   id: null,
                   title: "",
                   readyInMinutes: "",
-                  popularity: null,
+                  popularity: 0,
                   glutenFree: false,
-                  vegeterian: false,
+                  vegetarian: false,
                   vegan: false,
                   alreadyWatched: null,
                   inFavorites: null,
@@ -196,13 +196,31 @@
               this.$parent.hideRecipeModal();
           },
   
-          async onAdd(){     
+          async onAdd(){
               this.pressed = true;
               let title_state = this.checkTitleState();
               let time_state = this.checkTimeState();
               let dishes_state = this.checkDishesState();
               if(!(title_state && time_state && dishes_state)){
                   return;
+              }
+              if(this.created_recipe.glutenFree){
+                this.created_recipe.glutenFree = 1;
+              }
+              else{
+                this.created_recipe.glutenFree = 0;
+              }
+              if(this.created_recipe.vegetarian){
+                this.created_recipe.vegetarian = 1;
+              }
+              else{
+                this.created_recipe.vegetarian = 0;
+              }
+              if(this.created_recipe.vegan){
+                this.created_recipe.vegan = 1;
+              }
+              else{
+                this.created_recipe.vegan = 0;
               }
               await this.axios.post(          
               this.$root.store.server_domain + "/Users/createRecipe",
@@ -221,7 +239,7 @@
                   readyInMinutes: "",
                   popularity: null,
                   glutenFree: false,
-                  vegeterian: false,
+                  vegetarian: false,
                   vegan: false,
                   alreadyWatched: null,
                   inFavorites: null,

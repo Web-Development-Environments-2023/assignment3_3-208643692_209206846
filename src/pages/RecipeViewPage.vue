@@ -10,25 +10,25 @@
           <div class="wrapped">
             <div class="mb-3">
               <div>Ready in {{ recipe.readyInMinutes }} minutes</div>
-              <div>Likes: {{ recipe.aggregateLikes }} likes</div>
+              <div>Likes: {{ recipe.popularity }} likes</div>
             </div>
             Ingredients:
-            <!-- <ul>
+            <ul>
               <li
                 v-for="(r, index) in recipe.extendedIngredients"
                 :key="index + '_' + r.id"
               >
                 {{ r.original }}
               </li>
-            </ul> -->
+            </ul>
           </div>
           <div class="wrapped">
             Instructions:
-            <!-- <ol>
-              <li v-for="s in recipe._instructions" :key="s.number">
+            <ol>
+              <li v-for="s in recipe.analyzedInstructions" :key="s.number">
                 {{ s.step }}
               </li>
-            </ol> -->
+            </ol>
           </div>
         </div>
       </div>
@@ -67,7 +67,7 @@ export default {
               "/recipes/" +`${this.$route.params.recipeId}`
           );
 
-        // console.log("response.status", response.status);
+        console.log(response.data);
         if (response.status !== 200) this.$router.replace("/NotFound");
       } catch (error) {
         console.log("error.response.status", error.response.status);
@@ -111,7 +111,9 @@ export default {
         readyInMinutes,
         title,
         vegan,
-        vegeterian
+        vegeterian,
+        analyzedInstructions,
+        extendedIngredients
       } = response.data;
       
       let _recipe = {
@@ -122,7 +124,9 @@ export default {
         readyInMinutes,
         title,
         vegan,
-        vegeterian
+        vegeterian,
+        analyzedInstructions,
+        extendedIngredients
       };
 
       this.recipe = _recipe;
