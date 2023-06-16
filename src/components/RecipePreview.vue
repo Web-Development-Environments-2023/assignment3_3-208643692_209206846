@@ -14,6 +14,12 @@
         <li>{{ recipe.readyInMinutes }} minutes</li>
         <li>{{ recipe.popularity }} likes</li>
       </ul>
+      <div v-if="!!$root.store.username && recipe.favorite">
+          <button v-on:click="deleteFromFavorite()" class="favoriteBtnAlreadyClicked">&#11088;</button>
+      </div>
+      <div v-else-if="!!$root.store.username">
+        <button v-on:click=" onAddToFavorite()" class="favoriteBtn">&#11088;</button>
+      </div>
     </div>
   </router-link>
   <router-link v-else
@@ -43,18 +49,52 @@ export default {
       this.image_load = true;
     });
   },
+  methods:{
+    onAddToFavorite(){
+      this.addToFavorite()
+    },
+    onDeleteFromFavorite(){
+      this.deleteFromFavorite()
+    },
+    async addToFavorite(){
+      try {
+        console.log( this.recipe.recipeId)
+        response = await this.axios.post(
+            this.$root.store.server_domain +
+              "/users/favorites",
+            { recipe_id:this.recipe.recipeId},
+            { withCredentials:true }
+          );
+        if (response.status !== 200) this.$router.replace("/NotFound");
+      } catch (error) {
+        console.log("error.response.status", error.response.status);
+        this.$router.replace("/NotFound");
+        return;
+      }
+
+
+    },
+    async deleteFromFavorite(){
+      try {
+        console.log( this.recipe.recipeId)
+        response = await this.axios.delete(
+            this.$root.store.server_domain +
+              "/users/favorites/" + `${this.recipe.recipeId}`,
+              // { recipe_id:this.recipe.recipeId},
+              { withCredentials:true }
+          );
+        if (response.status !== 200) this.$router.replace("/NotFound");
+      } catch (error) {
+        console.log("error.response.status", error.response.status);
+        this.$router.replace("/NotFound");
+        return;
+      }
+    }
+  },
   data() {
     return {
       image_load: false
     };
-  },
-  methods:{
-    addToFavorite(){
-
-    },
-    deleteFromFavorite(){
-
-    }
   },
   props: {
     recipe: {

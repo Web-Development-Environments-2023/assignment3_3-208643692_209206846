@@ -1,7 +1,7 @@
 <template>
   <div class="container">
-    <h1 class="title">Favorites</h1>
-    <!-- <RecipePreviewList title="Random Recipes" class="RandomRecipes center" reqSource="/users/favorites" /> -->
+    <h1 class="title">Favorite</h1>
+    <RecipePreviewList title="Try These Recipes" class="RandomRecipes center" reqSource="/users/favorites" />
   </div>
 </template>
 
@@ -9,7 +9,7 @@
 import RecipePreviewList from "../components/RecipePreviewList";
 export default {
   components: {
-    // RecipePreviewList
+    RecipePreviewList
   }
 };
 </script>
