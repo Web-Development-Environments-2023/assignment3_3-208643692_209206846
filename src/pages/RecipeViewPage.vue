@@ -32,12 +32,6 @@
           </div>
         </div>
       </div>
-      <div v-if="!!$root.store.username && recipe.favorite">
-          <button v-on:click="deleteFromFavorite()" class="favoriteBtnAlreadyClicked">&#11088;</button>
-        </div>
-        <div v-else-if="!!$root.store.username">
-          <button v-on:click="addToFavorite()" class="favoriteBtn">&#11088;</button>
-      </div>
       <!-- <pre>
       {{ $route.params }}
       {{ recipe }}
@@ -53,42 +47,6 @@ export default {
     return {
       recipe: null,
     };
-  },
-  methods:{
-    async addToFavorite(){
-      try {
-        console.log( this.recipe.id)
-        response = await this.axios.post(
-            this.$root.store.server_domain +
-              "users/favorites",
-              this.recipe.id,
-            { withCredentials:true }
-          );
-        if (response.status !== 200) this.$router.replace("/NotFound");
-      } catch (error) {
-        console.log("error.response.status", error.response.status);
-        this.$router.replace("/NotFound");
-        return;
-      }
-
-
-    },
-    async deleteFromFavorite(){
-      try {
-        console.log( this.recipe.id)
-        response = await this.axios.delete(
-            this.$root.store.server_domain +
-              "users/favorites/",
-              this.recipe.id,
-              { withCredentials:true }
-          );
-        if (response.status !== 200) this.$router.replace("/NotFound");
-      } catch (error) {
-        console.log("error.response.status", error.response.status);
-        this.$router.replace("/NotFound");
-        return;
-      }
-    }
   },
   async created() {
     try {
