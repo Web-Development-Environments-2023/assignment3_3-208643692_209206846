@@ -3,7 +3,7 @@
     <h1 id="search-title" class="title">Search Page</h1>
     <div id="search-form" class="container">
       <b-form @submit.prevent="onSearch" @reset.prevent="onReset">
-        <!-- Query -->
+        <!-- Query  -->
         <b-form-group
           id="search-query"
           label-cols-sm="3"

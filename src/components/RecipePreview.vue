@@ -19,6 +19,7 @@
         <div v-else-if="!!$root.store.username">
           <button v-on:click="addToFavorite()" class="favoriteBtn">&#11088;</button>
         </div>
+        <!--  -->
       </ul>
     </div>
   </router-link>
