@@ -15,10 +15,10 @@
         <li>{{ recipe.popularity }} likes</li>
       </ul>
       <div v-if="!!$root.store.username && recipe.favorite">
-          <button v-on:click="deleteFromFavorite()" class="favoriteBtnAlreadyClicked">&#11088;</button>
+          <button v-on:click.prevent="deleteFromFavorite()" class="favoriteBtnAlreadyClicked">&#11088;</button>
       </div>
       <div v-else-if="!!$root.store.username">
-        <button v-on:click=" onAddToFavorite()" class="favoriteBtn">&#11088;</button>
+        <button v-on:click.prevent=" onAddToFavorite()" class="favoriteBtn">&#11088;</button>
       </div>
     </div>
   </router-link>
