@@ -1,18 +1,24 @@
 <template>
   <div class="container">
-    <RecipePreviewList title="Try These Recipes" class="RandomRecipes center" reqSource="/recipes/random" />
-    <router-link v-if="!$root.store.username" to="/login" tag="button">You need to Login to view this</router-link>
-    {{ !$root.store.username }}
-    <!-- <RecipePreviewList
+    <table>
+      <th style="width: 33.33%;"><RecipePreviewList title="Try These Recipes" class="RandomRecipes center" reqSource="/recipes/random" orientation="vertical" showRandomButton="true"/>
+      </th>
+      <th style="width: 33.33%;"><RecipePreviewList
       title="Your Last Viewed Recipes"
       :class="{
         RandomRecipes: true,
         blur: !$root.store.username,
         center: true
       }"
+      orientation="vertical"
       disabled
       reqSource="/users/lastWatched"
-    ></RecipePreviewList> -->
+    ></RecipePreviewList></th>
+    <th style="width: 33.33%;"><router-link v-if="!$root.store.username" to="/login" tag="button">You need to Login to view this</router-link>
+    {{ !$root.store.username }}</th>
+    </table>
+    
+    
     <!-- <div
       style="position: absolute;top: 70%;left: 50%;transform: translate(-50%, -50%);"
     >

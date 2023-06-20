@@ -99,11 +99,11 @@
         <select v-model="selection.selected_amount">
           <option v-for="amount in [5, 10, 15]" :value="amount" :key="amount">{{ amount }}</option>
         </select>
-        <select v-model="selection.sorting">
+        <!-- <select v-model="selection.sorting">
         <option value="">Select to sort</option>
         <option value="Popularity (descending)">Popularity (descending)</option>
         <option value="Preparation time (ascending)">Preparation time (ascending)</option>
-      </select>
+      </select> -->
       </div>    
     </div>    
     <div class="d-flex justify-content-center pt-3">    

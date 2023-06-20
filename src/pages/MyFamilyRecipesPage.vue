@@ -1,20 +1,77 @@
 <template>
-    <div class="container">
-      <h1 class="title">My Family Recipes</h1>
-      <!-- <RecipePreviewList title="Random Recipes" class="RandomRecipes center" reqSource="/users/favorites" /> -->
-    </div>
-  </template>
-  
+  <div class="container">
+    <h1 class="title">Family</h1>
+    <RecipePreviewList title="Try These Recipes" class="RandomRecipes center" reqSource="/users/MyFamilyRecipes/All" />
+  </div>
+</template>
+
+
   <script>
   import RecipePreviewList from "../components/RecipePreviewList";
   export default {
+    // props:{
+    //   recipes:{
+    //     default:[
+    //             {
+    //                 "recipeId": 764752,
+    //                 "title": "Cinnamon French Toast Sticks",
+    //                 "readyInMinutes": 45,
+    //                 "image": "https://spoonacular.com/recipeImages/764752-556x370.jpg",
+    //                 "popularity": 4,
+    //                 "vegan": false,
+    //                 "vegetarian": true,
+    //                 "glutenFree": false,
+    //                 "favorite": false,
+    //                 "watched": false
+    //             },
+    //             {
+    //                 "recipeId": 637670,
+    //                 "title": "Cheesy Pasta in a Pot",
+    //                 "readyInMinutes": 45,
+    //                 "image": "https://spoonacular.com/recipeImages/637670-556x370.jpg",
+    //                 "popularity": 2,
+    //                 "vegan": false,
+    //                 "vegetarian": false,
+    //                 "glutenFree": false,
+    //                 "favorite": false,
+    //                 "watched": false
+    //             },
+    //             {
+    //                 "recipeId": 641063,
+    //                 "title": "Curried Cauliflower Gratin",
+    //                 "readyInMinutes": 45,
+    //                 "image": "https://spoonacular.com/recipeImages/641063-556x370.jpg",
+    //                 "popularity": 8,
+    //                 "vegan": false,
+    //                 "vegetarian": true,
+    //                 "glutenFree": false,
+    //                 "favorite": false,
+    //                 "watched": false
+    //             }
+    //         ]
+    //   },
+    // },
+    // data(){
+    //   return{
+
+    //   }
+    // },
     components: {
-    //   RecipePreviewList
+      RecipePreviewList
     }
   };
   </script>
   
   <style lang="scss" scoped>
+ .container {
+  background-image: url('../assets/family_eating.jpg');
+  /* Additional background styles */
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  height: 100%;
+}
+
   .RandomRecipes {
     margin: 10px 0 10px;
   }
@@ -27,4 +84,3 @@
     cursor: default;
   }
   </style>
-  

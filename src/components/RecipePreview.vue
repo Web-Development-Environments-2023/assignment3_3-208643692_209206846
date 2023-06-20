@@ -155,6 +155,7 @@ export default {
   box-sizing: border-box;
   border-radius: 10px;
   overflow: hidden;
+  margin-top: 2%;
   box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
   transition: transform 0.2s ease;
 }

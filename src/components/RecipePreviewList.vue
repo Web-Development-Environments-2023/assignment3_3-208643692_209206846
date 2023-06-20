@@ -4,16 +4,23 @@
       {{ title }}:
       <slot></slot>
     </h3>
-    <b-row v-if="this.reqSource !== '/users/MyRecipes'">
-      <b-col v-for="r in recipes" :key="r.id">
-        <RecipePreview class="recipePreview" :recipe="r" recipeSrc='NotMyRecipes' />
-      </b-col>
-    </b-row>
-    <b-row v-else>
+    <!-- <b-row > -->
+      <div v-if="this.reqSource !== '/users/MyRecipes'" :class="[orientation === 'horizontal' ? 'recipe-list-horizontal' : 'recipe-list-vertical']">
+        <b-col v-for="r in recipes" :key="r.id">
+          <RecipePreview class="recipePreview" :recipe="r" recipeSrc='NotMyRecipes' />
+        </b-col>
+      </div>
+    <!-- </b-row> -->
+    <!-- <b-row > -->
+    <div v-else :class="[orientation === 'horizontal' ? 'recipe-list-horizontal' : 'recipe-list-vertical']">
       <b-col v-for="r in recipes" :key="r.id">
         <RecipePreview class="recipePreview" :recipe="r" recipeSrc='MyRecipes' />
       </b-col>
-    </b-row>
+    </div>
+    <div v-if="this.showRandomButton">
+      <button class="update-button" @click="updateRecipes">Show me 3 other Random</button>
+    </div>
+    <!-- </b-row> -->
   </b-container>
 </template>
 
@@ -33,6 +40,14 @@ export default {
       type: String,
       required: true
     },
+    orientation: {
+      type: String,
+      default: "horizontal" // Default value is vertical
+    },
+    showRandomButton:{
+      type:Boolean,
+      default: false
+    }
   },
   data() {
     return {
@@ -72,4 +87,32 @@ export default {
 .container {
   min-height: 400px;
 }
+
+.recipe-list-horizontal {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+.recipe-list-vertical {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.update-button {
+  background-color: #4caf50;
+  color: #fff;
+  padding: 10px 20px;
+  font-size: 16px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.update-button:hover {
+  background-color: #45a049;
+}
+
 </style>
