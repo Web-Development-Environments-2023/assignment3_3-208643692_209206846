@@ -7,6 +7,12 @@
     <p>
       Our mission is to inspire and empower people to cook homemade meals by providing a wide range of easy-to-follow recipes for every occasion.
     </p>
+    <p>
+      We urge you to see our other projects:<br>
+      <a class="click" @click='redirectTo("https://web-development-environments-2023.github.io/208643692/")'>Gad's website for his grandfather</a><br>
+      <a class="click" @click='redirectTo("https://web-development-environments-2023.github.io/209206846/")'>Ofek's website for a retired teacher</a><br>
+      <a class="click" @click='redirectTo("https://web-development-environments-2023.github.io/assignment2-209206846_208643692/")'>Ofek and Gad's Spaceship game</a><br>
+    </p>
     <h2>Meet Our Team</h2>
     <div class="team-members">
       <div v-for="member in team" :key="member.name" class="team-member">
@@ -25,6 +31,11 @@ import max3 from "../assets/max3.jpeg"
 
 
 export default {
+  methods:{ 
+      redirectTo(url){
+        window.location.href=url;      
+       } 
+  },
   data() {
     return {
       team: [
@@ -45,7 +56,7 @@ export default {
         }
       ]
     };
-  }
+  },
 };
 </script>
 
@@ -99,5 +110,17 @@ export default {
 
 .team-member p {
   font-size: 16px;
+}
+
+.click{
+  color: blue;
+  text-decoration: underline;
+  
+}
+
+.click:hover {
+  color: blue;
+  text-decoration: underline;
+  cursor: pointer;
 }
 </style>

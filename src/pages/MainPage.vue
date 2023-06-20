@@ -14,8 +14,7 @@
       disabled
       reqSource="/users/lastWatched"
     ></RecipePreviewList></th>
-    <th style="width: 33.33%;"><router-link v-if="!$root.store.username" to="/login" tag="button">You need to Login to view this</router-link>
-    {{ !$root.store.username }}</th>
+    <th style="width: 33.33%;"><router-link v-if="!$root.store.username" to="/login" tag="button">You need to Login to view this</router-link></th>
     </table>
     
     
