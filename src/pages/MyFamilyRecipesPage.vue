@@ -1,13 +1,11 @@
 <template>
   <div class="container">
     <h1 class="title">Family</h1>
-    <RecipePreviewList title="Try These Recipes" class="RandomRecipes center" reqSource="/users/MyFamilyRecipes/All" />
   </div>
 </template>
 
 
   <script>
-  import RecipePreviewList from "../components/RecipePreviewList";
   export default {
     // props:{
     //   recipes:{
@@ -57,7 +55,6 @@
     //   }
     // },
     components: {
-      RecipePreviewList
     }
   };
   </script>

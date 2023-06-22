@@ -1,78 +1,3 @@
-<!-- <template>
-  <div>
-    <h1 class="title" 
-      style="padding-top: 20px; padding-left: 5px; font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;">
-      Search Recipes
-    </h1>
-    <div style="display: inline-block; width: 100%">
-      <div class="form" style="float: left; padding-left: 10px; padding-right: 12px;">
-      <b-form @submit.stop.prevent> <br>        
-        <b-form-input class="pl-3" placeholder="Search here" v-model="selection.search_string" id="querystring" ></b-form-input>
-        <b-form-text class="pl-3" id="help-block">
-          In case of adding filtering the search will only consist of spooncular results!
-        </b-form-text>
-      </b-form>
-      </div>
-      <div style="padding-right: 10px;" id="dropdowns" class="d-flex pt-4">
-      <multiselect 
-        v-model="selection.selected_cuisines"
-        :options="options.cuisines"
-        placeholder="No cuisines to exclude"
-        style="max-width: 200px"
-        multiple
-        size="lg">      
-      </multiselect>
-      <multiselect
-        v-model="selection.selected_intolerances"
-        :options="options.intolerance"
-        placeholder="No intolerances"
-        style="max-width: 200px"
-        multiple>      
-      </multiselect>
-          <multiselect
-        v-model="selection.selected_diet"
-        :options="options.diets"
-        style="max-width: 200px"
-        placeholder="Any diet"
-        
-        >      
-      </multiselect>
-      <multiselect
-        v-model="selection.selected_amount"
-        :options="[5,10,15]"
-        placeholder="select amount of results"
-        style="max-width: 200px"
-        :allowEmpty="false"
-        >      
-      </multiselect>    
-      </div>    
-    </div>    
-      <multiselect
-      v-model="selection.sorting"
-      :options="['Popularity (descending)','Preperation time (ascending)']"
-      placeholder="select to sort"
-      style="max-width: 300px; left: 43%; right: auto;"      
-      :allowEmpty="true"
-      >      
-    </multiselect>  
-    <div class="d-flex justify-content-center pt-3">    
-      <b-button @click="Submit"  variant="success" >Search</b-button>
-    </div>
-    
-    <div class="resultsWrapper">
-      <RecipePreviewList id="searchResult" v-if="did_search"
-      title="Search Results" :reqSource= 'search_query' :sort="selection.sorting"
-      :class="{
-        RandomRecipes: true,
-        blur: !$root.store.username,
-        center: true
-      }"
-      disabled
-    ></RecipePreviewList>
-    </div>
-  </div>
-</template> -->
-
 <template>
   <div>
     <h1 class="title">
@@ -99,11 +24,11 @@
         <select v-model="selection.selected_amount">
           <option v-for="amount in [5, 10, 15]" :value="amount" :key="amount">{{ amount }}</option>
         </select>
-        <!-- <select v-model="selection.sorting">
+        <select v-model="selection.sorting">
         <option value="">Select to sort</option>
         <option value="Popularity (descending)">Popularity (descending)</option>
         <option value="Preparation time (ascending)">Preparation time (ascending)</option>
-      </select> -->
+      </select>
       </div>    
     </div>    
     <div class="d-flex justify-content-center pt-3">    

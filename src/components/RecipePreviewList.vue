@@ -47,6 +47,10 @@ export default {
     showRandomButton:{
       type:Boolean,
       default: false
+    },
+    sort:{
+      type:String,
+      required: false,
     }
   },
   data() {
@@ -72,6 +76,12 @@ export default {
         // console.log(response);
         this.recipes = [];
         const recipes = response.data;
+        console.log(this.sort)
+        if(this.sort == "Popularity (descending)")
+          recipes.sort((rec1, rec2) => rec1.popularity < rec2.popularity ? 1 : -1);    
+        else if(this.sort == "Preparation time (ascending)")
+          recipes.sort((rec1, rec2) => rec1.readyInMinutes > rec2.readyInMinutes ? 1 : -1);
+
         this.recipes.push(...recipes);
         console.log(recipes)
         // console.log(this.recipes);

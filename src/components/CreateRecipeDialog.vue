@@ -127,12 +127,12 @@
           <input v-model="created_recipe.image" placeholder="https://img.etimg.com/thumb/msid-76085858,width-1200,height-900,imgsize-91873,overlay-etpanache/photo.jpg">
         </div>      
   
-        <div class = "ingredients">
-          <h5>Added ingredients:</h5>
-          <ul v-if="created_recipe.ingredients!=''">  
-            <li class="list-group-item borderless" button variant="secondary" v-for="(i, index) in created_recipe.ingredients.split('&')"
+        <div class = "extendedIngredients">
+          <h5>Added Ingredients:</h5>
+          <ul v-if="created_recipe.extendedIngredients!=''">  
+            <li class="list-group-item borderless" button variant="secondary" v-for="(i, index) in created_recipe.extendedIngredients.split('&')"
               :key="index + '_' + i"
-            ><div v-if="index!=(created_recipe.ingredients.split('&').length-1)">
+            ><div v-if="index!=(created_recipe.extendedIngredients.split('&').length-1)">
               {{i}}
             <b-button @click="removeIng(i)" size="sm" class="ml-2" variant="danger">x</b-button>
             </div>            
@@ -154,7 +154,7 @@
       data(){
           return {
               created_recipe: {
-                  ingredients: "",
+                  extendedIngredients: "",
                   servings: "",
                   instructions: "",
                   id: null,
@@ -167,7 +167,7 @@
                   alreadyWatched: null,
                   inFavorites: null,
                   image: "",
-                  extendedIngredients: null
+                  // extendedextendedIngredients: null
               },
               ingredientName: "",
               ingredientAmount: "",
@@ -232,7 +232,7 @@
           },
           onReset(){
             this.created_recipe = {
-                  ingredients: "",
+                  extendedIngredients: "",
                   servings: "",
                   instructions: "",
                   id: null,
@@ -245,7 +245,7 @@
                   alreadyWatched: null,
                   inFavorites: null,
                   image: "",
-                  extendedIngredients: null
+                  // extendedextendedIngredients: null
               };
               this.ingredientName= "";
               this.ingredientAmount= "";
@@ -253,17 +253,17 @@
           },
           addIngredient(){
               if(this.ingredientName=="" || this.ingredientAmount=="") return;
-              this.created_recipe.ingredients += " " + this.ingredientName + " | " + this.ingredientAmount + " & ";
+              this.created_recipe.extendedIngredients += " " + this.ingredientName + " | " + this.ingredientAmount + " & ";
               this.ingredientName = "";
               this.ingredientAmount = "";
           },
           removeIng(ing){
-            let temp = this.created_recipe.ingredients.split('&');
+            let temp = this.created_recipe.extendedIngredients.split('&');
             let index = temp.indexOf(ing);
             if(index<=-1) return;
             temp.splice(index,1);
-            this.created_recipe.ingredients = temp.join('&');
-            if(this.created_recipe.ingredients==' ') this.created_recipe.ingredients = ""
+            this.created_recipe.extendedIngredients = temp.join('&');
+            if(this.created_recipe.extendedIngredients==' ') this.created_recipe.extendedIngredients = ""
             console.log(this.created_recipe.recepiePreview.image);
           }
       }
@@ -284,7 +284,7 @@
   .photo{
     padding-bottom: 30%;
   }
-  .ingredients{
+  .extendedIngredients{
   
   }
   </style>
@@ -322,8 +322,8 @@
         <label for="servings">Servings:</label>
         <input id="servings" v-model="createRecipe.servings" type="number" />
 
-        <label for="extendedIngredients">Extended Ingredients:</label>
-        <textarea id="extendedIngredients" v-model="createRecipe.extendedIngredients"></textarea>
+        <label for="extendedextendedIngredients">Extended extendedIngredients:</label>
+        <textarea id="extendedextendedIngredients" v-model="createRecipe.extendedextendedIngredients"></textarea>
       </div>
 
       <div class="dialog-buttons">
@@ -352,7 +352,7 @@ export default {
         glutenFree: true,
         instructions: "",
         servings: 4,
-        extendedIngredients: ""
+        extendedextendedIngredients: ""
       }
     };
   },
