@@ -14,12 +14,22 @@
             </div>
             Ingredients:
             <ul>
-              <li
-                v-for="(r, index) in recipe.extendedIngredients"
-                :key="index + '_' + r.id"
-              >
-                {{ r.original }}
-              </li>
+              <div  v-if = "this.$route.params.src !== 'MyRecipes' ">
+                <li
+                  v-for="(r, index) in recipe.extendedIngredients"
+                  :key="index + '_' + r.id"
+                >
+                  {{ r.original }}
+                </li>
+              </div>
+              <div v-else>
+                <li
+                  v-for="(r, index) in recipe.extendedIngredients.split('&')"
+                  :key="index + r"
+                  >
+                  {{ r }}
+                </li>
+              </div>
             </ul>
           </div>
           <div class="wrapped">

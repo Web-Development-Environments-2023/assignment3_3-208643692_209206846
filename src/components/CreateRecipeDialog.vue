@@ -222,6 +222,7 @@
               else{
                 this.created_recipe.vegan = 0;
               }
+              // this.created_recipe.extendedIngredients = this.created_recipe.extendedIngredients.split('&')
               await this.axios.post(          
               this.$root.store.server_domain + "/Users/createRecipe",
               this.created_recipe,
