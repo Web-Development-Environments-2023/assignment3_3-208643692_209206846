@@ -1,73 +1,154 @@
 <template>
   <div class="container">
-    <h1 class="title">Family</h1>
+    <h1 class="title">Family Recipes</h1>
+
+    <div class="Rec1">
+      <h2>Hanukkah Latkes by Savta Tzipora</h2>
+      <p>
+        Background: some text some text some text some text <br>
+        some text some text some text some text some text <br>
+        some text some text some text some text some text <br>
+        some text some text some text some text some text <br>
+        some text some text some text some text some text <br>
+        some text some text some text some text some text <br>
+        some text some text some text some text some text <br>
+        some text some text some text some text some text <br>
+      </p>
+      <p>
+        Ingrediants:
+        <ul>
+          <li>
+            Ing1
+          </li>
+          <li>
+            Ing2
+          </li>
+          <li>
+            Ing3
+          </li>
+          <li>
+            Ing4
+          </li>
+          <li>
+            Ing5
+          </li>
+        </ul>
+      </p>
+      <p>
+        Instructions:
+        some text some text some text some text some text <br>
+        some text some text some text some text some text <br>
+        some text some text some text some text some text <br>
+        some text some text some text some text some text <br>
+      </p>
+      <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+    </div>
+    <br><br>
+    
+    <div class="Rec2">
+      <h2>Chicken Soup by Savta Shosh</h2>
+      <p>
+        Background: some text some text some text some text <br>
+        some text some text some text some text some text <br>
+        some text some text some text some text some text <br>
+        some text some text some text some text some text <br>
+        some text some text some text some text some text <br>
+        some text some text some text some text some text <br>
+        some text some text some text some text some text <br>
+        some text some text some text some text some text <br>
+      </p>
+      <p>
+        Ingrediants:
+        <ul>
+          <li>
+            Ing1
+          </li>
+          <li>
+            Ing2
+          </li>
+          <li>
+            Ing3
+          </li>
+          <li>
+            Ing4
+          </li>
+          <li>
+            Ing5
+          </li>
+        </ul>
+      </p>
+      <p>
+        Instructions:
+        some text some text some text some text some text <br>
+        some text some text some text some text some text <br>
+        some text some text some text some text some text <br>
+        some text some text some text some text some text <br>
+      </p>
+      <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+    </div>
+    <br><br>
+
+    <div class="Rec3">
+      <h2>Cheesecake by Savta Tzipora</h2>
+      <p>
+        Background: some text some text some text some text <br>
+        some text some text some text some text some text <br>
+        some text some text some text some text some text <br>
+        some text some text some text some text some text <br>
+        some text some text some text some text some text <br>
+        some text some text some text some text some text <br>
+        some text some text some text some text some text <br>
+        some text some text some text some text some text <br>
+      </p>
+      <p>
+        Ingrediants:
+        <ul>
+          <li>
+            Ing1
+          </li>
+          <li>
+            Ing2
+          </li>
+          <li>
+            Ing3
+          </li>
+          <li>
+            Ing4
+          </li>
+          <li>
+            Ing5
+          </li>
+        </ul>
+      </p>
+      <p>
+        Instructions:
+        some text some text some text some text some text <br>
+        some text some text some text some text some text <br>
+        some text some text some text some text some text <br>
+        some text some text some text some text some text <br>
+      </p>
+      <br><br><br><br><br><br><br><br>
+    </div>
   </div>
 </template>
 
 
   <script>
   export default {
-    // props:{
-    //   recipes:{
-    //     default:[
-    //             {
-    //                 "recipeId": 764752,
-    //                 "title": "Cinnamon French Toast Sticks",
-    //                 "readyInMinutes": 45,
-    //                 "image": "https://spoonacular.com/recipeImages/764752-556x370.jpg",
-    //                 "popularity": 4,
-    //                 "vegan": false,
-    //                 "vegetarian": true,
-    //                 "glutenFree": false,
-    //                 "favorite": false,
-    //                 "watched": false
-    //             },
-    //             {
-    //                 "recipeId": 637670,
-    //                 "title": "Cheesy Pasta in a Pot",
-    //                 "readyInMinutes": 45,
-    //                 "image": "https://spoonacular.com/recipeImages/637670-556x370.jpg",
-    //                 "popularity": 2,
-    //                 "vegan": false,
-    //                 "vegetarian": false,
-    //                 "glutenFree": false,
-    //                 "favorite": false,
-    //                 "watched": false
-    //             },
-    //             {
-    //                 "recipeId": 641063,
-    //                 "title": "Curried Cauliflower Gratin",
-    //                 "readyInMinutes": 45,
-    //                 "image": "https://spoonacular.com/recipeImages/641063-556x370.jpg",
-    //                 "popularity": 8,
-    //                 "vegan": false,
-    //                 "vegetarian": true,
-    //                 "glutenFree": false,
-    //                 "favorite": false,
-    //                 "watched": false
-    //             }
-    //         ]
-    //   },
-    // },
-    // data(){
-    //   return{
-
-    //   }
-    // },
     components: {
     }
   };
   </script>
   
   <style lang="scss" scoped>
- .container {
-  background-image: url('../assets/family_eating.jpg');
-  /* Additional background styles */
-  background-repeat: no-repeat;
-  background-size: cover;
-  background-position: center;
-  height: 100%;
-}
+//  .container {
+//   background-image: url('../assets/family_eating.jpg');
+//   /* Additional background styles */
+//   background-repeat: no-repeat;
+//   background-size: cover;
+//   background-position: center;
+//   height: 100%;
+// }
 
   .RandomRecipes {
     margin: 10px 0 10px;
@@ -80,4 +161,20 @@
     pointer-events: none;
     cursor: default;
   }
+
+  .Rec1{
+    background-image: url('../assets/Hanukkah Latkes.jpeg');
+    background-size: cover;
+  }
+
+  .Rec2{
+    background-image: url('../assets/Chicken.jpg');
+    background-size: cover;
+  }
+
+  .Rec3{
+    background-image: url('../assets/Cheese.jpg');
+    background-size: cover;
+  }
+  
   </style>
