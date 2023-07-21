@@ -1,14 +1,14 @@
 <template>
-  <div class="container">      
+  <div class="form-container">      
       <div class="left">                    
         <b-form @submit.prevent="onAdd" @reset.prevent="onReset">
-        <b-form-group
+        <b-form-group class="b-form-group"
           id="input-group-title"
           label-cols-sm="3"
           label="Recipe Title:"
           label-for="title"
         >
-          <b-form-input
+          <b-form-input class="b-form-input"
             id="title"
             v-model="created_recipe.title"
             type="text"
@@ -16,13 +16,13 @@
           ></b-form-input>
         </b-form-group>
       
-      <b-form-group
+      <b-form-group class="b-form-group"
           id="input-group-time"
           label-cols-sm="3"
           label="Preperation Time(in minutes):"
           label-for="time"
         >
-          <b-form-input
+          <b-form-input class="b-form-input"
             id="time"
             v-model="created_recipe.readyInMinutes"
             type="text"
@@ -31,13 +31,13 @@
   
         </b-form-group>
   
-      <b-form-group
+      <b-form-group class="b-form-group"
           id="input-group-dishes"
           label-cols-sm="3"
           label="Amount Of Dishes:"
           label-for="dishes"
         >
-          <b-form-input
+          <b-form-input class="b-form-input"
             id="dishes"
             v-model="created_recipe.servings"
             type="text"
@@ -46,13 +46,13 @@
   
         </b-form-group>
   
-        <b-form-group
+        <b-form-group class="b-form-group"
           id="input-group-gluten"
           label-cols-sm="3"
           label="Is GlutenFree:"
           label-for="gluten"
         >
-          <b-form-select
+          <b-form-select class="b-form-select"
             id="gluten"
             v-model="created_recipe.glutenFree"
             :options="[true, false]"
@@ -60,13 +60,13 @@
         <small v-if="created_recipe.glutenFree">please make sure your recipe is indeed gluten free</small>
         </b-form-group>
 
-        <b-form-group
+        <b-form-group class="b-form-group"
           id="input-group-vegetarian"
           label-cols-sm="3"
           label="Is Vegetarian:"
           label-for="vegetarian"
         >
-          <b-form-select
+          <b-form-select class="b-form-select"
             id="vegetarian"
             v-model="created_recipe.vegetarian"
             :options="[true, false]"
@@ -74,13 +74,13 @@
         <small v-if="created_recipe.vegetarian">please make sure your recipe is indeed vegetarian</small>
         </b-form-group>
   
-      <b-form-group
+      <b-form-group class="b-form-group"
           id="input-group-vegan"
           label-cols-sm="3"
           label="Is Vegan:"
           label-for="vegan"
         >
-          <b-form-select
+          <b-form-select class="b-form-select"
             id="vegan"
             v-model="created_recipe.vegan"
             :options="[true, false]"
@@ -89,7 +89,7 @@
   
         </b-form-group>
       <br>
-      <b-form-group>
+      <b-form-group class="b-form-group">
           <b-form-input
             id="instructions"
             v-model="created_recipe.instructions"
@@ -99,20 +99,18 @@
           <br>
           <div style="display: inline-flex;">
           <div style="padding-right:50px;"><b>Insert Ingredients:</b></div>
-              <b-form-input placeholder="ingredient name" id="ingredient name" v-model="ingredientName"></b-form-input>
-          <b-form-input placeholder="ingredient amount" id="ingredient amount" v-model="ingredientAmount"></b-form-input>
+              <b-form-input class="b-form-input" placeholder="ingredient name" id="ingredient name" v-model="ingredientName"></b-form-input>
+          <b-form-input class="b-form-input" placeholder="ingredient amount" id="ingredient amount" v-model="ingredientAmount"></b-form-input>
           </div>        
-          <b-button v-b-tooltip.hover.top="'You will see added ingredients on the right!'" class="mt-2" 
-            variant="primary" @click="addIngredient">Add Ingredient</b-button>        
+          <b-button v-b-tooltip.hover.top="'You will see added ingredients on the right!'" class="b-button" 
+            style="width: 450px; background-color: #19e7c1; font-weight: bold;" @click="addIngredient">Add Ingredient</b-button>        
       </b-form-group>    
       
       <!--------------------------------------------------------------------->
-        <b-button type="reset" variant="danger">Reset</b-button>
+        <b-button type="reset" variant="danger" style="width: 450px; margin-bottom: 15px;">Reset</b-button>
         <b-button
           type="submit"
-          variant="primary"
-          style="width:250px;"
-          class="ml-5 w-75"
+          style="width:450px; background-color: #19e7c1; font-weight: bold;"
           >Add Recipe</b-button
         >
         <br><br>
@@ -134,7 +132,7 @@
               :key="index + '_' + i"
             ><div v-if="index!=(created_recipe.extendedIngredients.split('&').length-1)">
               {{i}}
-            <b-button @click="removeIng(i)" size="sm" class="ml-2" variant="danger">x</b-button>
+            <b-button @click="removeIng(i)" size="sm" class="b-button" variant="danger">x</b-button>
             </div>            
             </li>
           </ul>
@@ -270,130 +268,73 @@
       }
   }
   </script>
-  
+
   <style>
-  .container{
-    
-  }
-  .right{
-    
-    float: right;
-  }
-  .left{  
-    float: left;
-  }
-  .photo{
-    padding-bottom: 30%;
-  }
-  .extendedIngredients{
-  
-  }
-  </style>
-
-<!-- <template>
-  <div>
-    <button @click="openCreateDialog">Create Recipe</button>
-
-    <Dialog v-if="showCreateDialog" :title="createDialogTitle" @close="closeCreateDialog">
-      <div class="dialog-content">
-        <label for="title">Title:</label>
-        <input id="title" v-model="createRecipe.title" type="text" />
-
-        <label for="readyInMinutes">Ready in Minutes:</label>
-        <input id="readyInMinutes" v-model="createRecipe.readyInMinutes" type="number" />
-
-        <label for="image">Image:</label>
-        <input id="image" v-model="createRecipe.image" type="text" />
-
-        <label for="popularity">Popularity:</label>
-        <input id="popularity" v-model="createRecipe.popularity" type="number" />
-
-        <label for="vegan">Vegan:</label>
-        <input id="vegan" v-model="createRecipe.vegan" type="checkbox" />
-
-        <label for="vegetarian">Vegetarian:</label>
-        <input id="vegetarian" v-model="createRecipe.vegetarian" type="checkbox" />
-
-        <label for="glutenFree">Gluten Free:</label>
-        <input id="glutenFree" v-model="createRecipe.glutenFree" type="checkbox" />
-
-        <label for="instructions">Instructions:</label>
-        <textarea id="instructions" v-model="createRecipe.instructions"></textarea>
-
-        <label for="servings">Servings:</label>
-        <input id="servings" v-model="createRecipe.servings" type="number" />
-
-        <label for="extendedextendedIngredients">Extended extendedIngredients:</label>
-        <textarea id="extendedextendedIngredients" v-model="createRecipe.extendedextendedIngredients"></textarea>
-      </div>
-
-      <div class="dialog-buttons">
-        <button @click="saveRecipe">Save</button>
-        <button @click="closeCreateDialog">Cancel</button>
-      </div>
-    </Dialog>
-  </div>
-</template>
-
-<script>
-import Dialog from "@/components/Dialog.vue";
-
-export default {
-  data() {
-    return {
-      showCreateDialog: false,
-      createDialogTitle: "Create Recipe",
-      createRecipe: {
-        title: "",
-        readyInMinutes: 30,
-        image: "",
-        popularity: 5,
-        vegan: true,
-        vegetarian: false,
-        glutenFree: true,
-        instructions: "",
-        servings: 4,
-        extendedextendedIngredients: ""
-      }
-    };
-  },
-  methods: {
-    openCreateDialog() {
-      this.showCreateDialog = true;
-    },
-    closeCreateDialog() {
-      this.showCreateDialog = false;
-    },
-    saveRecipe() {
-      // Here, you can handle the logic to save the recipe
-      console.log("Recipe saved:", this.createRecipe);
-      this.showCreateDialog = false;
-    }
-  },
-  components: {
-    Dialog
-  }
-};
-</script>
-
-<style scoped>
-.dialog-content {
-  margin-bottom: 20px;
+/* Style the main container */
+.form-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
 }
 
-.dialog-content label {
-  display: block;
-  margin-bottom: 5px;
+/* Style the left side of the form */
+.left {
+  width: 60%;
+  padding-right: 20px;
 }
 
-.dialog-content input,
-.dialog-content textarea {
+/* Style the right side of the form */
+.right {
+  width: 40%;
+}
+
+/* Style the form labels */
+.b-form-group > label {
+  font-weight: bold;
+  background-color: #19e7c1;
+  color: #fff;
+}
+
+/* Style the form inputs and selects */
+.b-form-input,
+.b-form-select {
   width: 100%;
-  padding: 5px;
+  padding: 8px;
+  font-size: 14px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
   margin-bottom: 10px;
+  background-color: #19e7c1;
+  color: #fff;
 }
 
-.dialog-buttons {
-  text-align: right;
+/* Style the added ingredients list */
+.extendedIngredients {
+  margin-top: 20px;
+  background-color: #19e7c1;
+  color: #fff;
 }
-</style> -->
+
+/* Style the added ingredients list items */
+.extendedIngredients li {
+  list-style: none;
+  border-bottom: 1px solid #ccc;
+  padding: 8px 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #19e7c1;
+  color: #fff;
+}
+
+/* Style the recipe photo input */
+.photo input {
+  width: 100%;
+  padding: 8px;
+  font-size: 14px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  margin-top: 10px;
+}
+
+</style>
