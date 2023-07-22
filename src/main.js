@@ -2,10 +2,15 @@ import Vue from "vue";
 import App from "./App.vue";
 import VueAxios from "vue-axios";
 import axios from "axios";
-
+import state from "./store.js"
 import routes from "./routes";
 import VueRouter from "vue-router";
+import VueCookies from 'vue-cookies'
+
+// axios.defaults.withCredentials = true;
+
 Vue.use(VueRouter);
+Vue.use(VueCookies);
 const router = new VueRouter({
   routes,
 });
@@ -24,6 +29,8 @@ import {
   AlertPlugin,
   ToastPlugin,
   LayoutPlugin,
+  ModalPlugin,
+  TooltipPlugin
 } from "bootstrap-vue";
 [
   FormGroupPlugin,
@@ -36,6 +43,8 @@ import {
   AlertPlugin,
   ToastPlugin,
   LayoutPlugin,
+  ModalPlugin,
+  TooltipPlugin
 ].forEach((x) => Vue.use(x));
 Vue.use(Vuelidate);
 
@@ -67,6 +76,7 @@ Vue.use(VueAxios, axios);
 Vue.config.productionTip = false;
 
 const shared_data = {
+  server_domain:  "https://gad-ofek.cs.bgu.ac.il",//"http://localhost:3000", //state.server_domain, //
   username: localStorage.username,
   login(username) {
     localStorage.setItem("username", username);

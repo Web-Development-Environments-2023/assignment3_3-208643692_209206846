@@ -10,25 +10,40 @@
           <div class="wrapped">
             <div class="mb-3">
               <div>Ready in {{ recipe.readyInMinutes }} minutes</div>
-              <div>Likes: {{ recipe.aggregateLikes }} likes</div>
+              <div>Likes: {{ recipe.popularity }} likes</div>
             </div>
             Ingredients:
             <ul>
-              <li
-                v-for="(r, index) in recipe.extendedIngredients"
-                :key="index + '_' + r.id"
-              >
-                {{ r.original }}
-              </li>
+              <div  v-if = "this.$route.params.src !== 'MyRecipes' ">
+                <li
+                  v-for="(r, index) in recipe.extendedIngredients"
+                  :key="index + '_' + r.id"
+                >
+                  {{ r.original }}
+                </li>
+              </div>
+              <div v-else>
+                <li
+                  v-for="(r, index) in recipe.extendedIngredients.split('&')"
+                  :key="index + r"
+                  >
+                  {{ r }}
+                </li>
+              </div>
             </ul>
           </div>
           <div class="wrapped">
             Instructions:
-            <ol>
-              <li v-for="s in recipe._instructions" :key="s.number">
+            <div v-if="this.$route.params.src !== 'MyRecipes'">
+              <ol>
+              <li v-for="s in recipe.analyzedInstructions" :key="s.number">
                 {{ s.step }}
               </li>
             </ol>
+            </div>
+            <div v-else>
+                {{ recipe.instructions }}
+            </div>
           </div>
         </div>
       </div>
@@ -45,60 +60,134 @@
 export default {
   data() {
     return {
-      recipe: null
+      recipe: null,
     };
   },
   async created() {
     try {
       let response;
-      // response = this.$route.params.response;
-
       try {
-        response = await this.axios.get(
-          // "https://test-for-3-2.herokuapp.com/recipes/info",
-          this.$root.store.server_domain + "/recipes/info",
-          {
-            params: { id: this.$route.params.recipeId }
-          }
-        );
+        // response = await this.axios.get(
+        //   // "https://test-for-3-2.herokuapp.com/recipes/info",
+        //   this.$root.store.server_domain + "/recipes/info",
+        //   {
+        //     params: { id: this.$route.params.id }
+        //   }
+        // );
+        
+        if (this.$route.params.src !== 'MyRecipes'){
+          response = await this.axios.get(
 
-        // console.log("response.status", response.status);
-        if (response.status !== 200) this.$router.replace("/NotFound");
+            // "https://test-for-3-2.herokuapp.com/recipes/info",
+            this.$root.store.server_domain +
+              "/recipes/" +`${this.$route.params.recipeId}`,
+              { withCredentials:true }
+          );
+        }
+        else{
+          response = await this.axios.get(
+            // "https://test-for-3-2.herokuapp.com/recipes/info",
+            this.$root.store.server_domain +
+              "/users/" +`${this.$route.params.recipeId}`,
+              {withCredentials:true}
+          );
+        }
+
+        console.log("response data: " + response.data);
+        // if (response.status !== 200) this.$router.replace("/NotFound");
       } catch (error) {
         console.log("error.response.status", error.response.status);
         this.$router.replace("/NotFound");
         return;
       }
 
-      let {
-        analyzedInstructions,
-        instructions,
-        extendedIngredients,
-        aggregateLikes,
-        readyInMinutes,
-        image,
-        title
-      } = response.data.recipe;
+      // let {
+      //   analyzedInstructions,
+      //   instructions,
+      //   extendedIngredients,
+      //   aggregateLikes,
+      //   readyInMinutes,
+      //   image,
+      //   title
+      // } = response.data.recipe;
 
-      let _instructions = analyzedInstructions
-        .map((fstep) => {
-          fstep.steps[0].step = fstep.name + fstep.steps[0].step;
-          return fstep.steps;
-        })
-        .reduce((a, b) => [...a, ...b], []);
+      // let _instructions = analyzedInstructions
+      //   .map((fstep) => {
+      //     fstep.steps[0].step = fstep.name + fstep.steps[0].step;
+      //     return fstep.steps;
+      //   })
+      //   .reduce((a, b) => [...a, ...b], []);
 
-      let _recipe = {
-        instructions,
-        _instructions,
-        analyzedInstructions,
-        extendedIngredients,
-        aggregateLikes,
-        readyInMinutes,
+      // let _recipe = {
+      //   instructions,
+      //   _instructions,
+      //   analyzedInstructions,
+      //   extendedIngredients,
+      //   aggregateLikes,
+      //   readyInMinutes,
+      //   image,
+      //   title
+      // };
+
+      let _recipe;
+
+      if (this.$route.params.src !== 'MyRecipes'){
+        let {
+        glutenFree,
+        id,
         image,
-        title
+        popularity,
+        readyInMinutes,
+        title,
+        vegan,
+        vegeterian,
+        analyzedInstructions,
+        extendedIngredients
+      } = response.data;
+      
+      _recipe = {
+        glutenFree,
+        id,
+        image,
+        popularity,
+        readyInMinutes,
+        title,
+        vegan,
+        vegeterian,
+        analyzedInstructions,
+        extendedIngredients
       };
-
+        _recipe.analyzedInstructions = _recipe.analyzedInstructions[0].steps;
+      }
+      else{
+        let {
+        glutenFree,
+        id,
+        image,
+        popularity,
+        readyInMinutes,
+        title,
+        vegan,
+        vegeterian,
+        instructions,
+        extendedIngredients
+      } = response.data;
+      
+      _recipe = {
+        glutenFree,
+        id,
+        image,
+        popularity,
+        readyInMinutes,
+        title,
+        vegan,
+        vegeterian,
+        instructions,
+        extendedIngredients
+      };
+      }
       this.recipe = _recipe;
+      console.log(this.recipe)
     } catch (error) {
       console.log(error);
     }
@@ -107,6 +196,19 @@ export default {
 </script>
 
 <style scoped>
+.favoriteBtn {
+  border-radius: 30%;
+}
+.favoriteBtn:hover {
+  background-color: yellow;
+}
+.favoriteBtnAlreadyClicked{
+  background-color: yellow;
+}
+.favoriteBtnAlreadyClicked:hover{
+  background-color: rgb(255, 255, 255);
+}
+
 .wrapper {
   display: flex;
 }

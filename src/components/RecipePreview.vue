@@ -1,6 +1,6 @@
 <template>
-  <router-link
-    :to="{ name: 'recipe', params: { recipeId: recipe.id } }"
+  <router-link v-if="this.recipeSrc !== 'MyRecipes'"
+    :to="{ name: 'recipe', params: { recipeId: recipe.recipeId, src:'NotMyRecipes' } }"
     class="recipe-preview"
   >
     <div class="recipe-body">
@@ -12,7 +12,31 @@
       </div>
       <ul class="recipe-overview">
         <li>{{ recipe.readyInMinutes }} minutes</li>
-        <li>{{ recipe.aggregateLikes }} likes</li>
+        <li>{{ recipe.popularity }} likes</li>
+      </ul>
+      <div v-if="!!$root.store.username && recipe.favorite">
+          <button v-on:click.prevent="deleteFromFavorite()" class="favoriteBtnAlreadyClicked">&#11088;</button>
+      </div>
+      <div v-else-if="!!$root.store.username">
+        <button v-on:click.prevent=" onAddToFavorite()" class="favoriteBtn">&#11088;</button>
+      </div>
+    </div>
+  </router-link>
+  <router-link v-else
+    :to="{ name: 'userRecipe', params: { recipeId: recipe.id, src:'MyRecipes' } }"
+    class="recipe-preview"
+  >
+    <div class="recipe-body">
+      <img :src="recipe.image" class="recipe-image" />
+    </div>
+    <div class="recipe-footer">
+      <div :title="recipe.title" class="recipe-title">
+        {{ recipe.title }}
+      </div>
+      <ul class="recipe-overview">
+        <li>{{ recipe.readyInMinutes }} minutes</li>
+        <li>{{ recipe.popularity }} likes</li>
+
       </ul>
     </div>
   </router-link>
@@ -25,6 +49,48 @@ export default {
       this.image_load = true;
     });
   },
+  methods:{
+    onAddToFavorite(){
+      this.addToFavorite()
+    },
+    onDeleteFromFavorite(){
+      this.deleteFromFavorite()
+    },
+    async addToFavorite(){
+      try {
+        console.log( this.recipe.recipeId)
+        response = await this.axios.post(
+            this.$root.store.server_domain +
+              "/users/favorites",
+            { recipe_id:this.recipe.recipeId},
+            { withCredentials:true }
+          );
+        if (response.status !== 200) this.$router.replace("/NotFound");
+      } catch (error) {
+        console.log("error.response.status", error.response.status);
+        this.$router.replace("/NotFound");
+        return;
+      }
+
+
+    },
+    async deleteFromFavorite(){
+      try {
+        console.log( this.recipe.recipeId)
+        response = await this.axios.delete(
+            this.$root.store.server_domain +
+              "/users/favorites/" + `${this.recipe.recipeId}`,
+              // { recipe_id:this.recipe.recipeId},
+              { withCredentials:true }
+          );
+        if (response.status !== 200) this.$router.replace("/NotFound");
+      } catch (error) {
+        console.log("error.response.status", error.response.status);
+        this.$router.replace("/NotFound");
+        return;
+      }
+    }
+  },
   data() {
     return {
       image_load: false
@@ -33,6 +99,10 @@ export default {
   props: {
     recipe: {
       type: Object,
+      required: true
+    },
+    recipeSrc: {
+      type: String,
       required: true
     }
 
@@ -64,78 +134,77 @@ export default {
 </script>
 
 <style scoped>
+.favoriteBtn {
+  border-radius: 30%;
+}
+.favoriteBtn:hover {
+  background-color: yellow;
+}
+.favoriteBtnAlreadyClicked{
+  background-color: yellow;
+}
+.favoriteBtnAlreadyClicked:hover{
+  background-color: rgb(255, 255, 255);
+}
+
 .recipe-preview {
   display: inline-block;
-  width: 90%;
-  height: 100%;
-  position: relative;
-  margin: 10px 10px;
-}
-.recipe-preview > .recipe-body {
   width: 100%;
-  height: 200px;
-  position: relative;
-}
-
-.recipe-preview .recipe-body .recipe-image {
-  margin-left: auto;
-  margin-right: auto;
-  margin-top: auto;
-  margin-bottom: auto;
-  display: block;
-  width: 98%;
+  max-width: 300px;
   height: auto;
-  -webkit-background-size: cover;
-  -moz-background-size: cover;
-  background-size: cover;
-}
-
-.recipe-preview .recipe-footer {
-  width: 100%;
-  height: 50%;
+  box-sizing: border-box;
+  border-radius: 10px;
   overflow: hidden;
+  margin-top: 2%;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s ease;
 }
 
-.recipe-preview .recipe-footer .recipe-title {
-  padding: 10px 10px;
+.recipe-preview:hover {
+  transform: translateY(-5px);
+}
+
+.recipe-body {
   width: 100%;
-  font-size: 12pt;
-  text-align: left;
+  height: auto;
+  padding-top: 60%;
+  position: relative;
+}
+
+.recipe-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.recipe-footer {
+  width: 100%;
+  padding: 10px;
+}
+
+.recipe-title {
+  font-size: 18px;
+  font-weight: bold;
   white-space: nowrap;
   overflow: hidden;
-  -o-text-overflow: ellipsis;
   text-overflow: ellipsis;
 }
 
-.recipe-preview .recipe-footer ul.recipe-overview {
-  padding: 5px 10px;
-  width: 100%;
-  display: -webkit-box;
-  display: -moz-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
+.recipe-overview {
+  list-style-type: none;
+  margin: 10px 0 0 0;
+  padding: 0;
   display: flex;
-  -webkit-box-flex: 1;
-  -moz-box-flex: 1;
-  -o-box-flex: 1;
-  box-flex: 1;
-  -webkit-flex: 1 auto;
-  -ms-flex: 1 auto;
-  flex: 1 auto;
-  table-layout: fixed;
-  margin-bottom: 0px;
+  justify-content: space-between;
+  font-size: 14px;
+  color: #666;
 }
 
-.recipe-preview .recipe-footer ul.recipe-overview li {
-  -webkit-box-flex: 1;
-  -moz-box-flex: 1;
-  -o-box-flex: 1;
-  -ms-box-flex: 1;
-  box-flex: 1;
-  -webkit-flex-grow: 1;
-  flex-grow: 1;
-  width: 90px;
-  display: table-cell;
+.recipe-overview li {
+  flex-basis: 50%;
   text-align: center;
 }
 </style>

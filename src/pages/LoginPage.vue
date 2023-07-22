@@ -90,7 +90,7 @@ export default {
     validateState(param) {
       const { $dirty, $error } = this.$v.form[param];
       return $dirty ? !$error : null;
-    },
+    },   
     async Login() {
       try {
         
@@ -103,7 +103,8 @@ export default {
           {
             username: this.form.username,
             password: this.form.password
-          }
+          },
+          { withCredentials:true }
         );
         // console.log(response);
         // this.$root.loggedIn = true;
