@@ -3,7 +3,8 @@
     <table>
       <th style="width: 33.33%;"><RecipePreviewList title="Try These Recipes" class="RandomRecipes center" reqSource="/recipes/random" orientation="vertical" showRandomButton="true"/>
       </th>
-      <th style="width: 33.33%;"><RecipePreviewList
+      <th v-if="$root.store.username" style="width: 33.33%;">
+      <RecipePreviewList
       title="Your Last Viewed Recipes"
       :class="{
         RandomRecipes: true,

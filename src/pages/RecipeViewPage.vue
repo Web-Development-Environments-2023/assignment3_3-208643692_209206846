@@ -34,11 +34,16 @@
           </div>
           <div class="wrapped">
             Instructions:
-            <ol>
-              <li v-for="s in recipe.analyzedInstructions.steps" :key="s.number">
+            <div v-if="this.$route.params.src !== 'MyRecipes'">
+              <ol>
+              <li v-for="s in recipe.analyzedInstructions" :key="s.number">
                 {{ s.step }}
               </li>
             </ol>
+            </div>
+            <div v-else>
+                {{ recipe.instructions }}
+            </div>
           </div>
         </div>
       </div>
@@ -124,7 +129,10 @@ export default {
       //   title
       // };
 
-      let {
+      let _recipe;
+
+      if (this.$route.params.src !== 'MyRecipes'){
+        let {
         glutenFree,
         id,
         image,
@@ -137,7 +145,7 @@ export default {
         extendedIngredients
       } = response.data;
       
-      let _recipe = {
+      _recipe = {
         glutenFree,
         id,
         image,
@@ -149,7 +157,35 @@ export default {
         analyzedInstructions,
         extendedIngredients
       };
-      _recipe.analyzedInstructions = _recipe.analyzedInstructions[0];
+        _recipe.analyzedInstructions = _recipe.analyzedInstructions[0].steps;
+      }
+      else{
+        let {
+        glutenFree,
+        id,
+        image,
+        popularity,
+        readyInMinutes,
+        title,
+        vegan,
+        vegeterian,
+        instructions,
+        extendedIngredients
+      } = response.data;
+      
+      _recipe = {
+        glutenFree,
+        id,
+        image,
+        popularity,
+        readyInMinutes,
+        title,
+        vegan,
+        vegeterian,
+        instructions,
+        extendedIngredients
+      };
+      }
       this.recipe = _recipe;
       console.log(this.recipe)
     } catch (error) {
