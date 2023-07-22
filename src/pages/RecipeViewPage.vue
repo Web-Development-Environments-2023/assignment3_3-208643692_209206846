@@ -35,7 +35,7 @@
           <div class="wrapped">
             Instructions:
             <ol>
-              <li v-for="s in recipe.analyzedInstructions" :key="s.number">
+              <li v-for="s in recipe.analyzedInstructions.steps" :key="s.number">
                 {{ s.step }}
               </li>
             </ol>
@@ -88,8 +88,8 @@ export default {
           );
         }
 
-        console.log(response.data);
-        if (response.status !== 200) this.$router.replace("/NotFound");
+        console.log("response data: " + response.data);
+        // if (response.status !== 200) this.$router.replace("/NotFound");
       } catch (error) {
         console.log("error.response.status", error.response.status);
         this.$router.replace("/NotFound");
@@ -149,8 +149,9 @@ export default {
         analyzedInstructions,
         extendedIngredients
       };
-
+      _recipe.analyzedInstructions = _recipe.analyzedInstructions[0];
       this.recipe = _recipe;
+      console.log(this.recipe)
     } catch (error) {
       console.log(error);
     }
